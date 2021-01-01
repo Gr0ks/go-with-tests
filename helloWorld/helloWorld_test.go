@@ -14,7 +14,7 @@ func TestHello(t *testing.T) {
 	})
 
 	t.Run("Test without arguments", func(t *testing.T) {
-		got := Hello()
+		got := Hello("")
 		want := "Hello, world"
 	
 		if got != want {
