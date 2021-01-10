@@ -1,4 +1,4 @@
-package dependencyInjection
+package main
 
 import (
 	"testing"
