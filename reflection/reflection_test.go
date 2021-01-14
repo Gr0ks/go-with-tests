@@ -75,6 +75,14 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"Sev", "Simf"},
 		},
+		{
+			"Maps",
+			map[string]string{
+				"foo": "bar",
+				"baz": "boz",
+			},
+			[]string{"bar", "boz"},
+		},
 	}
 
 	for _, test := range cases {
