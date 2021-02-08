@@ -8,16 +8,6 @@ import (
 	"context"
 )
 
-type StubStore struct {
-	response string
-}
-
-func (s *StubStore) Fetch() string {
-	return s.response 
-}
-
-func (s *StubStore) Cancel() {}
-
 type SpyStore struct {
 	response string
 	cancelled bool
@@ -36,7 +26,8 @@ func TestServer(t *testing.T) {
 
 	t.Run("init test", func(t *testing.T) {
 		data := "hello, world"
-		srv := Server(&StubStore{data})
+		store := &SpyStore{response: data}
+		srv := Server(store)
 	
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 		response := httptest.NewRecorder()
@@ -45,6 +36,10 @@ func TestServer(t *testing.T) {
 	
 		if response.Body.String() != data {
 			t.Errorf(`got "%s", want "%s"`, response.Body.String(), data)
+		}
+
+		if store.cancelled {
+			t.Errorf("it should not have cancelled the store")
 		}
 	})
 	
