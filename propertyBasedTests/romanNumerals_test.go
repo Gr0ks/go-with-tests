@@ -8,7 +8,7 @@ import (
 )
 
 type myCases []struct{
-	Arabic int
+	Arabic uint16
 	Roman string
 }
 
@@ -66,7 +66,7 @@ func TestConvertingToArabic(t *testing.T) {
 }
 
 func TestPropertiesOfConversion(t *testing.T) {
-	assertion := func(arabic int) bool {
+	assertion := func(arabic uint16) bool {
 		if arabic < 0 || arabic > 3999 {
 			log.Println(arabic)
 			return true
@@ -76,7 +76,9 @@ func TestPropertiesOfConversion(t *testing.T) {
 		return fromRoman == arabic
 	}
 
-	if err := quick.Check(assertion, nil); err != nil {
+	if err := quick.Check(assertion, &quick.Config{
+		MaxCount:1000,
+	}); err != nil {
 		t.Errorf("failed checks %q", err)
 	}
 }
